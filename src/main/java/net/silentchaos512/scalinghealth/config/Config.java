@@ -18,21 +18,16 @@
 
 package net.silentchaos512.scalinghealth.config;
 
-import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.attributes.RangedAttribute;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.common.config.Configuration;
-import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 import net.silentchaos512.lib.config.ConfigBaseNew;
 import net.silentchaos512.lib.config.ConfigMultiValueLineParser;
 import net.silentchaos512.lib.config.ConfigOption;
 import net.silentchaos512.lib.event.Greetings;
-import net.silentchaos512.lib.util.Color;
 import net.silentchaos512.lib.util.I18nHelper;
 import net.silentchaos512.lib.util.LogHelper;
 import net.silentchaos512.scalinghealth.ScalingHealth;
-import net.silentchaos512.scalinghealth.client.HeartDisplayHandler;
 import net.silentchaos512.scalinghealth.event.DamageScaling;
 import net.silentchaos512.scalinghealth.lib.EnumAreaDifficultyMode;
 import net.silentchaos512.scalinghealth.lib.EnumHealthModMode;
@@ -44,7 +39,6 @@ import net.silentchaos512.scalinghealth.utils.EntityMatchList;
 import net.silentchaos512.scalinghealth.utils.PlayerMatchList;
 
 import java.io.File;
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -84,81 +78,7 @@ public class Config extends ConfigBaseNew {
         @ConfigOption.BooleanDefault(true)
         public static boolean enableWitSupport;
 
-        public static final class Hearts {
-            @ConfigOption(name = "Custom Heart Rendering", category = CAT_CLIENT)
-            @ConfigOption.BooleanDefault(true)
-            @ConfigOption.Comment("Replaces vanilla heart rendering (regular and absorption)")
-            public static boolean customHeartRendering;
 
-            @ConfigOption(name = "Replace Vanilla Heart Row With Custom", category = CAT_CLIENT)
-            @ConfigOption.BooleanDefault(true)
-            @ConfigOption.Comment("If true, replaces the vanilla hearts with Scaling Health's hearts. Otherwise," +
-                    " regular vanilla hearts are rendered first, then custom hearts are used for extra health.")
-            public static boolean replaceVanillaRow;
-
-            @ConfigOption(name = "Text Offset X", category = CAT_CLIENT)
-            @ConfigOption.RangeInt(0)
-            @ConfigOption.Comment("Offset the position of health text.")
-            public static int textOffsetX;
-            @ConfigOption(name = "Text Offset Y", category = CAT_CLIENT)
-            @ConfigOption.RangeInt(0)
-            @ConfigOption.Comment("Offset the position of health text.")
-            public static int textOffsetY;
-
-            @ConfigOption(name = "Text Offset Absorption X", category = CAT_CLIENT)
-            @ConfigOption.RangeInt(0)
-            @ConfigOption.Comment("Offset the position of the absorption text")
-            public static int absorbTextOffsetX;
-            @ConfigOption(name = "Text Offset Absorption Y", category = CAT_CLIENT)
-            @ConfigOption.RangeInt(0)
-            @ConfigOption.Comment("Offset the position of the absorption text")
-            public static int absorbTextOffsetY;
-
-            public static HeartDisplayHandler.TextStyle textStyle;
-            public static HeartDisplayHandler.TextColor textColor;
-            public static int textSolidColor;
-            public static HeartDisplayHandler.AbsorptionHeartStyle absorptionStyle;
-            public static HeartDisplayHandler.TextStyle absorbTextStyle;
-            public static HeartDisplayHandler.TextColor absorbTextColor;
-
-            @ConfigOption(name = "Last Heart Outline Enabled", category = CAT_CLIENT)
-            @ConfigOption.BooleanDefault(true)
-            @ConfigOption.Comment("Outline your highest (max health) heart in a different color. This makes seeing your" +
-                    " max health a little bit easier.")
-            public static boolean lastHeartOutline;
-
-            @ConfigOption(name = "Last Heart Outline Color", category = CAT_CLIENT)
-            @ConfigOption.RangeInt(value = 0xFFFFFF, min = 0, max = 0xFFFFFF)
-            @ConfigOption.Comment("The color of the last heart outline (default value). Due to an oversight, this ended" +
-                    " up as a decimal number. Oops.")
-            public static int lastHeartOutlineColor;
-
-            @ConfigOption(name = "Color Looping", category = CAT_CLIENT)
-            @ConfigOption.BooleanDefault(true)
-            @ConfigOption.Comment("If true, heart colors will 'loop around' to the first color after going through the" +
-                    " entire list. Set false to have every row after the last have the same color.")
-            public static boolean heartColorLooping;
-
-            @SuppressWarnings("MagicNumber")
-            public static int[] defaultHeartColors = {
-                    0xBF0000, // 0 red
-                    0xE66000, // 25 orange-red
-                    0xE69900, // 40 orange
-                    0xE6D300, // 55 yellow
-                    0x99E600, // 80 lime
-                    0x4CE600, // 100 green
-                    0x00E699, // 160 teal
-                    0x00E6E6, // 180 aqua
-                    0x0099E6, // 200 sky blue
-                    0x0000E6, // 240 blue
-                    0x9900E6, // 280 dark purple
-                    0xD580FF, // 280 light purple
-                    0x8C8C8C, // 0 gray
-                    0xE6E6E6  // 0 white
-            };
-            public static int[] heartColors = new int[0];
-            public static int[] absorptionHeartColors = new int[0];
-        }
 
         public static final class Difficulty {
             @ConfigOption(name = "Render Difficulty Meter", category = CAT_CLIENT)
@@ -667,26 +587,7 @@ public class Config extends ConfigBaseNew {
 
             ConfigMultiValueLineParser parser;
 
-            // Change entity max health cap with reflection
-            final int maxHealthCap = loadInt("Max Health Cap", CAT_MAIN, 2048, 2, Integer.MAX_VALUE,
-                    "Max health cap for all entities, players and mobs (vanilla is 1024)");
-            try {
-                ScalingHealth.logHelper.info("Trying to change max health cap to {}", maxHealthCap);
-                Field field = ObfuscationReflectionHelper.findField(RangedAttribute.class, "field_111118_b");
-                field.setDouble(SharedMonsterAttributes.MAX_HEALTH, maxHealthCap);
-            } catch (Exception ex) {
-                ScalingHealth.logHelper.warn(ex, "Failed to change max health cap");
-            }
 
-            // Client
-            Client.Hearts.textStyle = HeartDisplayHandler.TextStyle.loadFromConfig(this, "Health Text Style", HeartDisplayHandler.TextStyle.ROWS);
-            Client.Hearts.textColor = HeartDisplayHandler.TextColor.loadFromConfig(this, "Health Text Color", HeartDisplayHandler.TextColor.GREEN_TO_RED);
-            Client.Hearts.textSolidColor = Color.parse(config.getString("Health Text Solid Color", CAT_CLIENT, "FFFFFF", "Text color is color style is SOLID")).getColor();
-            Client.Hearts.absorptionStyle = HeartDisplayHandler.AbsorptionHeartStyle.loadDromConfig(this);
-            Client.Hearts.absorbTextStyle = HeartDisplayHandler.TextStyle.loadFromConfig(this, "Absorption Text Style", HeartDisplayHandler.TextStyle.DISABLED);
-            Client.Hearts.absorbTextColor = HeartDisplayHandler.TextColor.loadFromConfig(this, "Absorption Text Color", HeartDisplayHandler.TextColor.WHITE);
-
-            loadHeartColors(config);
 
             // Players
             // Health
@@ -913,32 +814,7 @@ public class Config extends ConfigBaseNew {
         }
     }
 
-    private static void loadHeartColors(Configuration c) {
-        // Get hex strings for default colors.
-        String[] defaults = new String[Client.Hearts.defaultHeartColors.length];
-        for (int i = 0; i < defaults.length; ++i)
-            defaults[i] = String.format("%06x", Client.Hearts.defaultHeartColors[i]);
 
-        // Load the string list from config.
-        String[] list = c.getStringList("Heart Colors", Config.CAT_CLIENT, defaults,
-                "The colors for each additional row of hearts. The colors will loop back around to the beginning if necessary. Use hexadecimal to specify colors (like HTML color codes).");
-        String[] listAbsorb = c.getStringList("Absorption Heart Colors", Config.CAT_CLIENT, defaults,
-                "The colors for each row of absorption hearts. Works the same way as \"Heart Colors\"");
-
-        // Convert hex strings to ints.
-        try {
-            Client.Hearts.heartColors = new int[list.length];
-            for (int i = 0; i < Client.Hearts.heartColors.length; ++i)
-                Client.Hearts.heartColors[i] = Integer.decode("0x" + list[i]);
-
-            Client.Hearts.absorptionHeartColors = new int[listAbsorb.length];
-            for (int i = 0; i < Client.Hearts.absorptionHeartColors.length; ++i)
-                Client.Hearts.absorptionHeartColors[i] = Integer.decode("0x" + listAbsorb[i]);
-        } catch (NumberFormatException ex) {
-            ScalingHealth.logHelper.warn("Failed to load heart colors because a value could not be parsed. Make sure all values are valid hexadecimal integers. Try using an online HTML color picker if you are having problems.");
-            ex.printStackTrace();
-        }
-    }
 
     public boolean canParseInt(String str) {
         try {

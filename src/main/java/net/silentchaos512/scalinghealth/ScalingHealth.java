@@ -23,18 +23,18 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.Random;
 
-@Mod(modid = ScalingHealth.MOD_ID_LOWER,
-        name = ScalingHealth.MOD_NAME,
-        version = ScalingHealth.VERSION,
+@Mod(modid = Tags.MOD_ID,
+        name = Tags.MOD_NAME,
+        version = Tags.VERSION,
         dependencies = ScalingHealth.DEPENDENCIES,
         guiFactory = "net.silentchaos512.scalinghealth.gui.GuiFactoryScalingHealth")
 @MethodsReturnNonnullByDefault
 @SuppressWarnings({"unused", "WeakerAccess"})
 public class ScalingHealth implements IModBase {
     public static final String MOD_ID_OLD = "ScalingHealth";
-    public static final String MOD_ID_LOWER = "scalinghealth";
-    public static final String MOD_NAME = "Scaling Health";
-    public static final String VERSION = "1.3.37";
+    public static final String MOD_ID_LOWER = Tags.MOD_ID;
+    public static final String MOD_NAME = Tags.MOD_NAME;
+    public static final String VERSION = Tags.VERSION;
     public static final String VERSION_SILENTLIB = "3.0.13";
     public static final int BUILD_NUM = 0;
     public static final String DEPENDENCIES = "required-after:forge@[14.23.5.2779,);required-after:silentlib@[" + VERSION_SILENTLIB + ",);after:morpheus";

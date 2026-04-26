@@ -18,9 +18,6 @@
 
 package net.silentchaos512.scalinghealth.client.key;
 
-import net.silentchaos512.scalinghealth.config.Config;
-import org.lwjgl.input.Keyboard;
-
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraftforge.client.settings.KeyConflictContext;
 import net.minecraftforge.client.settings.KeyModifier;
@@ -28,6 +25,8 @@ import net.minecraftforge.fml.common.gameevent.InputEvent.KeyInputEvent;
 import net.silentchaos512.lib.client.key.KeyTrackerSL;
 import net.silentchaos512.scalinghealth.ScalingHealth;
 import net.silentchaos512.scalinghealth.client.DifficultyDisplayHandler;
+import net.silentchaos512.scalinghealth.config.Config;
+import org.lwjgl.input.Keyboard;
 
 public class KeyTrackerSH extends KeyTrackerSL {
     public static final KeyTrackerSH INSTANCE = new KeyTrackerSH();

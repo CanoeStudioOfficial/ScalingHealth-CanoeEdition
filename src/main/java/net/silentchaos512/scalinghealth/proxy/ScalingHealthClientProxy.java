@@ -31,7 +31,6 @@ import net.silentchaos512.lib.registry.SRegistry;
 import net.silentchaos512.lib.util.Color;
 import net.silentchaos512.scalinghealth.ScalingHealth;
 import net.silentchaos512.scalinghealth.client.DifficultyDisplayHandler;
-import net.silentchaos512.scalinghealth.client.HeartDisplayHandler;
 import net.silentchaos512.scalinghealth.client.key.KeyTrackerSH;
 import net.silentchaos512.scalinghealth.client.render.particle.ParticleSH;
 import net.silentchaos512.scalinghealth.config.Config;
@@ -45,7 +44,7 @@ public class ScalingHealthClientProxy extends ScalingHealthCommonProxy {
     public void preInit(SRegistry registry, FMLPreInitializationEvent event) {
         super.preInit(registry, event);
 
-        MinecraftForge.EVENT_BUS.register(HeartDisplayHandler.INSTANCE);
+
         MinecraftForge.EVENT_BUS.register(DifficultyDisplayHandler.INSTANCE);
         MinecraftForge.EVENT_BUS.register(KeyTrackerSH.INSTANCE);
 
