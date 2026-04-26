@@ -1,18 +1,21 @@
-# Scaling Health
+## TemplateDevEnv
+_For Kotlin see [TemplateDevEnvKt](https://github.com/CleanroomMC/TemplateDevEnvKt)_
 
-This Minecraft mod started as a port of [Difficult Life](http://minecraft.curseforge.com/projects/difficult-life). Eventually, I decided I would rather break down the existing mod and build my own, fixing bugs and fine-tuning it to my liking. Over time the mod has evolved into a completely different beast, but could still be configured to function more-or-less like Difficult Life if you wanted to.
+Template workspace for modding Minecraft 1.12.2. Licensed under MIT, it is made for public use.
 
-This mod will, by default, allow the player to gain extra health. Mobs will also gain extra health, with the amount increasing gradually over time. Both player and mob health increases can be disabled. The rate at which the difficulty increases can also be changed. Difficulty can be configured to change with a variety of factors or could be disabled entirely. The config is rich with options. 
+This template runs on **Java 25**, **Gradle 9.2.1** + **[RetroFuturaGradle](https://github.com/GTNewHorizons/RetroFuturaGradle) 2.0.2** + **Forge 14.23.5.2847**.
 
-Most code has been rewritten at this point, but there may be portions that are almost direct copies from Difficult Life.
+With **coremod and mixin support** that is easy to configure.
 
-The CurseForge page should have more detailed (and mostly up-to-date) information about features of the mod. The wiki has some information on more advanced features. Although I'm notoriously bad about updated wikis...
+### Instructions:
 
-## Links and Downloads
-- [CurseForge](https://minecraft.curseforge.com/projects/scaling-health) (downloads and more information)
-- [GitHub repository](https://github.com/SilentChaos512/ScalingHealth) (source code)
-- [Issue Tracker on GitHub](https://github.com/SilentChaos512/ScalingHealth/issues) (bug reports and feature requests)
-- [Discord Server](https://discord.gg/gh84eWK) (easiest way to get quick questions answered)
+1. Click `use this template` at the top.
+2. Clone the repository that you have created with this template to your local machine.
+3. Make sure IDEA is using Java 25 for Gradle before you sync the project. Verify this by going to IDEA's `Settings > Build, Execution, Deployment > Build Tools > Gradle > Gradle JVM`.
+4. Open the project folder in IDEA. When prompted, click "Load Gradle Project" as it detects the `build.gradle`, if you weren't prompted, right-click the project's `build.gradle` in IDEA, select `Link Gradle Project`, after completion, hit `Refresh All` in the gradle tab on the right.
+5. Run gradle tasks such as `runClient` and `runServer` in the IDEA gradle tab, or use the auto-imported run configurations like `1. Run Client`.
 
-### Note on Downloads
-**I only upload builds to Minecraft CurseForge.** If you downloaded the mod from somewhere other than Curse/CurseForge or the Twitch launcher (or as part of a modpack in some cases), I cannot make any guarantees about the file or its contents, as it was uploaded without my permission.
+### Notes:
+- Dependencies script in [gradle/scripts/dependencies.gradle](gradle/scripts/dependencies.gradle), explanations are commented in the file.
+- Publishing script in [gradle/scripts/publishing.gradle](gradle/scripts/publishing.gradle).
+- When writing Mixins on IntelliJ, it is advisable to use latest [MinecraftDev Fork for RetroFuturaGradle](https://github.com/eigenraven/MinecraftDev/releases).
